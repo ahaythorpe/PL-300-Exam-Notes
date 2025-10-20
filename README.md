@@ -220,3 +220,41 @@ YoY Change = [Sales YTD] - [Sales LY]
 📝 **Final Practice Question:**  
 > A report must show global sales totals unaffected by slicers. Which function clears filters?  
 ✅ **ALL()**
+
+# 🎯 Power BI – Cross Filtering, Cross Highlighting & Relationship Types
+
+> **PL-300 Quick Reference – Report Interactions & Data Model Directionality**
+
+---
+
+## 🧭 1️⃣ Cross Filtering vs Cross Highlighting
+
+| Concept | Behavior | Visual Example | Use Case |
+|----------|-----------|----------------|-----------|
+| **Cross Filtering** | Selecting one visual **filters** another visual so only matching data remains visible. | Selecting **Victoria** on a map filters a bar chart to show **only Victoria’s** sales. | You want visuals to **fully update** to the selected context. |
+| **Cross Highlighting** | Selecting one visual **highlights** matching portions in another visual — the rest stays visible but dimmed. | Selecting **Victoria** on a map highlights Victoria’s portion in each bar, other states remain faded. | You want to **compare** the selected values to the total. |
+
+### 🧩 How to Configure
+1. Click any visual.  
+2. Ribbon → **Format** → **Edit interactions**.  
+3. On the target visuals:  
+   - 🪣 **Funnel icon** → Cross Filter  
+   - 🎯 **Circle icon** → Cross Highlight  
+   - 🚫 **No icon** → No interaction  
+
+💡 *Slicers always apply filters — they never “highlight.”*
+
+---
+
+## 🔄 2️⃣ Relationship Direction (Filter Flow in Data Model)
+
+| Relationship Type | Filter Flow | Default Use | Typical Example |
+|--------------------|-------------|--------------|-----------------|
+| **Single-direction (one-way)** | From lookup → fact | Default | `Products → Sales` |
+| **Bi-directional (both)** | Filters flow both ways | Many-to-many or complex models | `Customers ↔ Regions` via `Sales` bridge |
+
+### 🧠 Example
+```text
+Products (Category, ProductID)
+   ↓
+Sales (ProductID, SalesAmount)
