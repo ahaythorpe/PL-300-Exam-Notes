@@ -1,7 +1,7 @@
 
 # 📘 PL-300 Power BI Data Analyst — Illustrated Study Guide (2025 Edition)
 
-# Printing to PDF using Markdown Preview enhanced 
+
 
 # Install packages 
 
@@ -220,8 +220,3 @@ YoY Change = [Sales YTD] - [Sales LY]
 📝 **Final Practice Question:**  
 > A report must show global sales totals unaffected by slicers. Which function clears filters?  
 ✅ **ALL()**
-
----
-
-### ✅ End of Guide
-You’re now ready to review, export, and print your color-coded Power BI PL-300 Study Guide!
