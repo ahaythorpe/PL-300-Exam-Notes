@@ -290,7 +290,7 @@ Only Members/Admins manage permissions; Contributors cannot share.
 | DirectQuery | Source DB | Real-time query | ✅ yes | Near real-time relational data. |
 | Live Connection | SSAS / AAS | Instant (model hosted) | ❌ uses existing model | Enterprise semantic models. |
 
-Common mix-up: Azure Analysis Services uses **Live Connection**, not DirectQuery.
+Common mix-up: Azure Analysis Services uses **Live Connection** not DirectQuery.
 
 ### Power Query Parameters
 - Create parameter → reference in `Sql.Database(ParameterServer, ParameterDatabase)`.
