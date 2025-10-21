@@ -210,7 +210,7 @@ To replace binary results (TRUE/FALSE) with readable icons — e.g. a checkmark,
 
 Often used with IF() or SWITCH() for KPIs or conditional formatting.
 
- ##✅ Example
+ ## ✅ Example
 
 Has Appointment =
 IF(
@@ -220,7 +220,7 @@ IF(
 )
 
 
-So yes — UNICHAR is a text function, and its use is mostly presentation-focused rather than analytical.
+SUNICHAR is a text function, and its use is mostly presentationfocused rather than analytical.
 ---
 
 ## 🟠 Visualize & Analyze
