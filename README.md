@@ -34,7 +34,7 @@ Connect → Transform → Clean → Load. Always validate column data types befo
 | Task | Tool | Why it matters |
 |------|------|----------------|
 | Append datasets | Append Queries | Adds rows (stack files). |
-| Join tables | Merge Queries | Adds columns via key match. |
+| Join tables | Merge Queries | Combines tabeles based on key Match. Adds columns via key match. |
 | Reorder columns | `Table.ReorderColumns` | Improves readability and export order. |
 
 💡 *Transform in Power Query first; calculated columns should rarely fix data quality issues.*
