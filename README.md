@@ -296,7 +296,7 @@ VAR Target = AVERAGE(Targets[Goal])
 RETURN
 IF(Sales >= Target, "✅ Met", "❌ Missed")
 
-# 🎯 PL-300 Tricky Power BI Exam Questions — Explanations, Comparisons & Common Mistakes
+## 🎯 PL-300 Tricky Power BI Exam Questions — Explanations, Comparisons & Common Mistakes
 
 A complete revision sheet of the most commonly misunderstood Power BI exam concepts.
 Includes detailed **explanations**, **DAX formulas**, **Power Query logic**, **visualization reasoning**, and **exam memory hacks**.
@@ -305,7 +305,7 @@ Includes detailed **explanations**, **DAX formulas**, **Power Query logic**, **v
 
 ## 🧩 1. DAX — SAMEPERIODLASTYEAR and CALCULATE
 
-### ✅ Example
+## ✅ Example
 ```DAX
 CALCULATE(SUM(Enrollments[Enrollments_amount]), SAMEPERIODLASTYEAR('Date'[Date]))
 🧠 Explanation
@@ -313,24 +313,25 @@ SAMEPERIODLASTYEAR() shifts the date context one year back while preserving the 
 
 CALCULATE() changes the context of a calculation, enabling you to aggregate using a new time period.
 
-⚙️ How It Works
+## ⚙️ How It Works
 Function	Role
 CALCULATE()	Re-evaluates an expression in a modified filter context.
 SAMEPERIODLASTYEAR()	Returns a set of dates exactly one year before the current filter context.
 
-🧠 Memory Trick
+## 🧠 Memory Trick
 "CALCULATE" applies the logic,
 "SAMEPERIODLASTYEAR" tells when to apply it.
 
-🧩 2. DAX — PREVIOUSYEAR with COUNT
+## 🧩 2. DAX — PREVIOUSYEAR with COUNT
 ✅ Example
 DAX
 Copy code
 CALCULATE(COUNT(Sales[SalesID]), PREVIOUSYEAR('Date'[Date]))
-🧠 Explanation
+
+##🧠 Explanation
 PREVIOUSYEAR() returns all dates from the previous calendar year, making it ideal for YoY goal or comparison measures.
 
-📊 Use Case
+## 📊 Use Case
 If you want to create a goal measure that’s 10% higher than last year’s sales:
 
 DAX
@@ -340,7 +341,8 @@ Goal = CALCULATE(COUNT(Sales[SalesID]), PREVIOUSYEAR('Date'[Date])) * 1.1
 Confusing PREVIOUSYEAR() with SAMEPERIODLASTYEAR().
 The former fetches the entire previous year; the latter fetches the same range from the previous year.
 
-🧩 3. FILTER + ALL — Isolating Context
+## 🧩 3. FILTER + ALL — Isolating Context
+
 ✅ Example
 DAX
 Copy code
@@ -350,7 +352,8 @@ ALL() removes all filters applied to the 'Date' table, giving a clean slate.
 
 The FILTER() function then reapplies only the year 2019.
 
-🧩 Summary Table
+## 🧩 Summary Table
+
 Function	Description	Typical Use
 ALL()	Ignores any filter context	Compare across entire dataset
 FILTER()	Applies conditional logic	Select subsets dynamically
@@ -358,22 +361,27 @@ FILTER()	Applies conditional logic	Select subsets dynamically
 ⚠️ Mistake
 Using VALUES() instead of ALL() would limit filtering only to visible data, not the full dataset.
 
-🧩 4. DATEADD — Comparing Current vs Previous Periods
+## 🧩 4. DATEADD — Comparing Current vs Previous Periods
+
 ✅ Example
 DAX
 Copy code
 CALCULATE(SUM(Sales[Amount]), DATEADD('Date'[Date], -1, YEAR))
-🧠 Explanation
+
+## 🧠 Explanation
+
 DATEADD() shifts dates backward or forward by a specified interval (month, quarter, year).
 Used with CALCULATE() to compare current and prior periods.
 
-📘 Quick Comparison
+## 📘 Quick Comparison
+
 Function	Shift	Context Type
 DATEADD()	Flexible (± N intervals)	Continuous date column required
 SAMEPERIODLASTYEAR()	Fixed one-year shift	Retains same shape of data
 PARALLELPERIOD()	Similar to DATEADD	Often slower, but broader
 
-🧩 5. LASTNONBLANK — Handling Sparse Data
+## 🧩 5. LASTNONBLANK — Handling Sparse Data
+
 ✅ Example
 DAX
 Copy code
@@ -387,10 +395,11 @@ RETURN last12Months
 🧠 Explanation
 LASTNONBLANK() returns the last date in a column where the expression is not blank — perfect for trailing metrics (e.g., 12-month rolling totals).
 
-⚠️ Mistake
+## ⚠️ Mistake
 Using LASTDATE() will return blanks if data has gaps — LASTNONBLANK() ensures you always get the last actual data point.
 
-🧩 6. COUNTROWS + FILTER — Conditional Row Counting
+## 🧩 6. COUNTROWS + FILTER — Conditional Row Counting
+
 ✅ Example
 DAX
 Copy code
@@ -401,11 +410,11 @@ COUNTROWS() counts rows in a filtered table.
 
 FILTER() defines which rows qualify (like WHERE clause in SQL).
 
-⚙️ Why FILTER Here?
+## ⚙️ Why FILTER Here?
 The question specifies "Enrollments > 1000", which requires row-level evaluation.
 Using COUNT() would not work since it only counts scalar values, not row context.
 
-🧩 7. UNICHAR — Displaying Checkboxes in Matrix Visuals
+## 🧩 7. UNICHAR — Displaying Checkboxes in Matrix Visuals
 ✅ Example
 DAX
 Copy code
@@ -415,19 +424,20 @@ IF(
     UNICHAR(9635),
     ""
 )
-🧠 Explanation
+
+## 🧠 Explanation
 UNICHAR(9635) produces a checkbox (☑️).
 
 Combined with IF() logic, it visually marks rows with data (appointments).
 
-🧠 Why This Works
+## 🧠 Why This Works
 In matrix visuals, this formula displays dynamic icons per cell.
 COUNTROWS() checks data presence; UNICHAR() turns it into a visual cue.
 
 ⚠️ Mistake
 Confusing UNICHAR() (symbol rendering) with CHAR() (ASCII-specific).
 
-🧩 8. Power Query — Table.ReplaceValue()
+## 🧩 8. Power Query — Table.ReplaceValue()
 ✅ Example
 powerquery
 Copy code
@@ -437,7 +447,7 @@ Replaces text values within a column.
 
 In this example, 21318 Lasalle Street becomes 21319 Lasalle Street because ReplaceValue acts on any text containing 1318.
 
-⚠️ Common Mistake
+## ⚠️ Common Mistake
 Expecting it to replace only exact matches.
 It replaces substrings within text — so 21318 → 21319 happens automatically.
 
@@ -447,34 +457,34 @@ What does the Decomposition Tree not enable you to do?
 
 Answer: Conduct what-if analysis with built-in parameters.
 
-🧠 Why
+## 🧠 Why
 The Decomposition Tree performs root cause analysis, breaking down measures by attributes.
 
 It can automatically find highest/lowest contributing dimensions, but not simulate “what-if” scenarios.
 
-🧠 Summary
+## 🧠 Summary
 Feature	Supported?
 Root cause analysis	✅
 Auto-analyze dimension contribution	✅
 Built-in what-if simulation	❌
 
-🧩 10. Data Alerts — KPI, Gauges, and Cards
+## 🧩 10. Data Alerts — KPI, Gauges, and Cards
 ✅ Question
 Where can you configure and set data alerts?
 
 Answer: Only in Power BI Service, on visuals like KPI cards, gauges, and cards.
 
-🧠 Why
+## 🧠 Why
 Data alerts require Power BI Service + Dashboard tiles, not desktop visuals.
 
-⚙️ Supported Visuals
+## ⚙️ Supported Visuals
 Visual	Alerts Supported?
 KPI Card	✅
 Gauge	✅
 Card	✅
 Table / Matrix	❌
 
-🧩 11. Reference Lines — Median, Percentile, and Constant
+## 🧩 11. Reference Lines — Median, Percentile, and Constant
 📘 Example
 Create a reference line to show which employees earn above the median salary.
 
@@ -483,12 +493,14 @@ Add a Percentile Line (50%) using Salary measure.
 The 50th percentile = median.
 
 ⚙️ Difference Table
+
 Type	Description	Suitable for Median?
 Percentile Line	Draws at a chosen percentile (e.g. 50%)	✅
 Median Line	Automatic median	✅
 Constant Line	Fixed value	❌
 
 ⚠️ Common Mistake
+
 Setting a Constant Line = 0.5 does not represent 50th percentile — it’s a literal value, not a statistical measure.
 
 🧩 12. Azure Analysis Services — Connect Live
@@ -498,22 +510,27 @@ You’re creating a Power BI report with data from an Azure Analysis Services Cu
 Correct Answer: Connect Live
 
 # ⚙️ Comparison
+
 Mode	Data Storage	Refresh	Editable?	Ideal Use
 Import	In Power BI	Manual/Scheduled	✅ Yes	Static reports
 DirectQuery	In DB	Real-time SQL queries	✅ Yes	SQL DBs
 Connect Live	In Cube (AAS/SSAS)	Immediate	❌ No	Semantic models
 
 # ⚠️ Common Mistake
+
 Choosing DirectQuery for AAS — it’s not used for cubes, only for relational DBs.
 
-🧩 13. Power Query Parameters — Switching Between Databases
+## 🧩 13. Power Query Parameters — Switching Between Databases
+
 ✅ Correct Answer
 Create a parameter and update the queries to use it.
 
 # 🧠 Why
+
 Power Query Parameters let you dynamically switch between Dev, Test, and Prod databases without rewriting queries.
 
 # ⚙️ Example
+
 powerquery
 Copy code
 Source = Sql.Database(ParameterServer, ParameterDatabase)
@@ -524,12 +541,14 @@ Consistency	One dataset, multiple environments
 Automation	Used with deployment pipelines
 
 # ⚠️ Common Mistakes
+
 Mistake	Why Wrong
 Creating separate queries	Redundant and error-prone
 Using ReplaceValue	Static replacement only
 Using JSON file	Not supported for dynamic sources
 
 # 🧠 Quick Memory Recap Grid
+
 Concept	Core Function	Quick Recall
 Compare YoY	CALCULATE + SAMEPERIODLASTYEAR	"Shift 1 year, keep shape"
 Rolling totals	DATEADD + LASTNONBLANK	"Move back in time with data gaps handled"
@@ -543,6 +562,7 @@ Azure Cubes	Connect Live	"Live = immediate refresh"
 Multi-environments	Power Query Parameters	"Dynamic connection strings"
 
 ✅ Final Takeaway
+
 Most tricky PL-300 questions test whether you understand how Power BI behaves behind the scenes — context transitions, model relationships, environment configurations, and visualization properties.
 
 Focus on why each function exists, not just what it does.
@@ -550,16 +570,19 @@ Focus on why each function exists, not just what it does.
 ## 🧩 20. Node.js, Python, and JSON in Power BI
 
 ### 🧠 Context
+
 Although Power BI itself doesn’t rely on Node.js or Python internally for its core data engine, both appear in the **exam** because they are supported for **extensibility** — creating custom visuals, running analytics scripts, or integrating external tools.
 
 ---
 
 ### 🟩 Node.js — Custom Visual Development
+
 - Power BI’s **Custom Visuals SDK** (`pbiviz`) is built on **Node.js + npm**.  
 - Developers install it using:
 
 
-**Key Role:**  
+## Key Role
+
 Node.js provides the runtime for packaging and building **custom visuals** using JavaScript or TypeScript.  
 It is **not** used for data modeling, importing, or transformation inside Power BI Desktop.
 
@@ -569,12 +592,14 @@ It is **not** used for data modeling, importing, or transformation inside Power 
 | Importing or modeling data | ❌ | Handled by Power Query (M) and VertiPaq. |
 | Running visuals inside reports | ❌ | Visuals render in browser via Power BI framework. |
 
-**Memory Tip:**  
+## Memory Tip: 
+
 > Node.js = Developer tool for building visuals, not part of the data engine.
 
 
 
 ### 🟦 Python — Data Transformation and Analytics
+
 Power BI can **run Python scripts** directly for data import, transformation, and visualization.
 
 **Use Cases:**
@@ -592,11 +617,13 @@ It includes the full explanation of **Node.js, Python, and JSON in Power BI** �
 ## 🧩 20. Node.js, Python, and JSON in Power BI
 
 ### 🧠 Context
+
 Although Power BI itself doesn’t rely on Node.js or Python internally for its core data engine, both appear in the **exam** because they are supported for **extensibility** — creating custom visuals, running analytics scripts, or integrating external tools.
 
 ---
 
 ### 🟩 Node.js — Custom Visual Development
+
 - Power BI’s **Custom Visuals SDK** (`pbiviz`) is built on **Node.js + npm**.  
 - Developers install it using:
 ```
@@ -614,6 +641,7 @@ pbiviz package
 ````
 
 **Key Role:**  
+
 Node.js provides the runtime for packaging and building **custom visuals** using JavaScript or TypeScript.  
 It is **not** used for data modeling, importing, or transformation inside Power BI Desktop.
 
@@ -624,6 +652,7 @@ It is **not** used for data modeling, importing, or transformation inside Power 
 | Running visuals inside reports | ❌ | Visuals render in browser via Power BI framework. |
 
 **Memory Tip:**  
+
 > Node.js = Developer tool for building visuals, not part of the data engine.
 
 ---
@@ -632,6 +661,7 @@ It is **not** used for data modeling, importing, or transformation inside Power 
 Power BI can **run Python scripts** directly for data import, transformation, and visualization.
 
 **Use Cases:**
+
 - Connect to and shape data:
 ```python
 import pandas as pd
@@ -642,6 +672,7 @@ df = dataset.groupby("Region")["Sales"].sum().reset_index()
 * Create Python visuals (e.g., Matplotlib, Seaborn, Plotly).
 
 **Setup:**
+
 Enable Python scripting via:
 `File → Options → Python scripting → Set Python home directory`.
 
@@ -697,7 +728,7 @@ in
 * **JSON**: The **formatting and data-exchange language** across APIs, visuals, and themes.
 
 > 🧭 **Exam Hint:**
->
+
 > * If a question mentions **building custom visuals** → Node.js / pbiviz CLI.
 > * If it mentions **statistical or ML analysis** → Python.
 > * If it mentions **report themes or web data** → JSON.
