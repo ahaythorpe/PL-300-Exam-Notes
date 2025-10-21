@@ -320,4 +320,3 @@ df = dataset.groupby("Region")["Sales"].sum().reset_index()
 - Cross-check visualization requirements: compare vs filter vs highlight.
 - Keep calm: you can revisit flagged items; ensure every question has an answer.
 
-Good luck—you’ve got this! 💪
