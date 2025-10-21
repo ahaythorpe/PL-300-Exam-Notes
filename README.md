@@ -111,7 +111,7 @@ VAR TotalCost  = SUM(Sales[Cost])
 RETURN
 DIVIDE(TotalSales - TotalCost, TotalSales)
 ```
-`VAR` stores intermediate results, improving readability and performance.
+`VAR` stores intermediate results improving readability and performance.
 
 ### Filter Overrides
 ```dax
@@ -144,7 +144,7 @@ Both functions return a single date, but the logic behind how they find it diffe
 
 Function	Purpose	Behavior	Use Case
 LASTDATE(column)	Returns the last date in the current context	Ignores blanks only in the date column	When you’re sure every date has data
-LASTNONBLANK(column, expression)	Returns the last date where the given expression isn’t blank	Ignores blanks based on the measure expression	When data may have gaps (missing months, nulls, etc.)
+LASTNONBLANK(column, expression)	Returns the last date where the given expression isn’t blank	Ignores blanks based on the measure expression When data may have gaps (missing months, nulls, etc.)
 
 ## 🧠 Example: Comparing UNICHAR and LASTNOBLANK
 
@@ -159,9 +159,9 @@ LastDate = LASTDATE('Date'[Date])
 LastWithSales = LASTNONBLANK('Date'[Date], [Total Sales])
 
 
-LASTDATE returns April — the last date in the column, even though there are no sales.
+LASTDATE returns April the last date in the column, even though there are no sales.
 
-LASTNONBLANK returns February — the last date that actually had sales data.
+LASTNONBLANK returns February the last date that actually had sales data.
 
 That’s why LASTNONBLANK is more reliable in rolling or trailing period calculations.
 
@@ -178,7 +178,7 @@ If your table has data gaps, LASTNONBLANK ensures your visuals or calculations (
 Function	Returns	Ignores Blanks?	Typical Usage
 UNICHAR	Text (symbol)	N/A	Replace text/boolean with icons in visuals
 LASTDATE	Single date	Only skips missing date values	Full continuous calendar (no gaps)
-LASTNONBLANK	Single date	Skips blank expressions	Trailing periods, sparse data handling
+LASTNONBLANK	Single date	Skips blank expressions	Trailing periods for sparse data handling
 
 ### Visual Indicators
 ```dax
@@ -208,7 +208,7 @@ To replace binary results (TRUE/FALSE) with readable icons — e.g. a checkmark,
 
 Often used with IF() or SWITCH() for KPIs or conditional formatting.
 
-✅ Example
+ ##✅ Example
 
 Has Appointment =
 IF(
