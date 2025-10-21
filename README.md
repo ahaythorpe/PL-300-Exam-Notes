@@ -140,7 +140,7 @@ LASTNONBLANK ensures rolling windows ignore gaps; `LASTDATE` can return blanks w
 
 ## 🧩 LASTDATE vs LASTNONBLANK — Time Intelligence Core Difference
 
-Both functions return a single date, but the logic behind how they find it differs — especially when blank values exist.
+Both functions return a single date, but the logic behind how they find it differs especially when blank values exist.
 
 Function	Purpose	Behavior	Use Case
 LASTDATE(column)	Returns the last date in the current context	Ignores blanks only in the date column	When you’re sure every date has data
