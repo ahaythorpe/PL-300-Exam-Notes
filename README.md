@@ -51,6 +51,30 @@ Connect → Transform → Clean → Load. Always validate column data types befo
 
 📝 **Mini Exam Q:** Finance and Sales reports share one `Date` table and need shared slicers. → Enable bi-directional filtering **only** on the Date relationship, or use a role-playing Date dimension per model design guidelines.
 
+🧩 Relationship Cardinality — One-to-Many vs Many-to-Many
+Type	Definition	Example	Exam Clue
+1: (One-to-Many)*	One unique key filters many records	Customer → Sales	Most common, default relationship
+: (Many-to-Many)	Both sides contain duplicate keys	Products ↔ Promotions	Requires composite or bridge table
+1:1 (One-to-One)	Unique match between two tables	Employee → EmployeeDetails	Used for column splitting or security
+Inactive Relationship	Exists but not used unless activated	Alternate date (e.g., ShipDate vs OrderDate)	Use USERELATIONSHIP() in DAX
+🧠 Memory Hook
+
+"Dimension filters fact — one filters many."
+
+## 🧩 Exam-Style Relationship Questions
+Q1. A single Product row links to many Sales transactions.
+→ ✅ One-to-Many (Product[ProductID] → Sales[ProductID])
+
+Q2. Two tables each contain multiple duplicate keys.
+→ ✅ Many-to-Many (needs bridge or composite relationship)
+
+Q3. You need a report using both OrderDate and ShipDate slicers.
+→ ✅ Create two relationships, one active, one inactive.
+Then use:
+
+Sales by Ship Date =
+CALCULATE([Total Sales], USERELATIONSHIP('Date'[Date], Sales[ShipDate]))
+
 ---
 
 ## 🟢 DAX Fundamentals
@@ -73,7 +97,62 @@ SUMX(
 )
 ```
 Use X-functions when the calculation references multiple columns or needs row context.
+🧩 DATEADD — Comparing Current vs Prior Periods
+🔹 Syntax
+DATEADD(<dates>, <number_of_intervals>, <interval>)
 
+
+Shifts a date column forward or backward by the specified number and interval (DAY, MONTH, QUARTER, YEAR).
+
+
+## 🧠 How DATEADD Works
+
+DATEADD() doesn’t aggregate; it returns a table of shifted dates.
+Combine it with CALCULATE() to re-evaluate measures for a different period.
+
+Sales Previous Year =
+CALCULATE(
+    [Total Sales],
+    DATEADD('Date'[Date], -1, YEAR)
+)
+
+## 🔍 Comparison DATEADD to DAX TIME INTELLIGENCE
+Function	Behavior	Output	When to Use
+DATEADD()	Shifts by any interval	Table of shifted dates	Flexible comparisons (e.g., -3 months)
+SAMEPERIODLASTYEAR()	Shifts by one year, same shape	Table of same dates last year	Standard YoY
+PARALLELPERIOD()	Shifts by fixed interval (month/quarter/year)	Table	Works even if dates aren’t continuous
+🧠 Memory Hook
+
+“DATEADD moves, CALCULATE compares.”
+
+## 🧩 Exam-Style DATEADD Questions
+
+Q1. You need a measure showing sales 6 months ago.
+→ ✅ Use DATEADD('Date'[Date], -6, MONTH).
+
+Q2. The dataset has missing dates (non-continuous).
+→ ⚠️ DATEADD will fail — use PARALLELPERIOD.
+
+Q3. Compare this month to the same month last year, same shape of dates.
+→ ✅ Use SAMEPERIODLASTYEAR.
+
+🧩 Common Mistakes Summary
+Function	Mistake	Fix
+ALL()	Used when filter context needed	Use ALLSELECTED() or ALLEXCEPT()
+DATEADD()	Non-continuous dates cause error	Use PARALLELPERIOD()
+Relationships	Forgetting cardinality direction	Always ensure dimension filters fact
+USERELATIONSHIP()	Forgotten for inactive dates	Activate explicitly in measure
+
+## 🧠 Memory Tricks DATEADD DAX
+
+ALL = All data, ignore slicers
+
+1:* = Dimension filters fact
+
+DATEADD = Shift, not sum
+
+USERELATIONSHIP = Hidden link between two worlds
+---
 ### Context Control with CALCULATE
 ```dax
 Profit 2024 =
@@ -124,6 +203,18 @@ CALCULATE(
 - `ALL()` removes filters on a column/table.
 - `FILTER()` reapplies only the logic you specify.
 - Use `COUNTROWS(FILTER(...))` for conditional row counts (e.g., enrollments > 1000).
+
+## 🧩 Exam-Style Questions ALL 
+
+Q1. You need to show a region’s sales as a % of global sales, ignoring filters.
+→ ✅ Use CALCULATE([Total Sales], ALL(Sales)).
+
+Q2. You need to rank regions based on slicer selection only.
+→ ✅ Use ALLSELECTED().
+
+Q3. The report must calculate total profit unaffected by a page slicer.
+→ ✅ Use ALL() on the relevant table or column.
+
 
 ### Handling Sparse Data
 ```dax
