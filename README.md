@@ -258,3 +258,62 @@ YoY Change = [Sales YTD] - [Sales LY]
 Products (Category, ProductID)
    ↓
 Sales (ProductID, SalesAmount)
+
+# 🧮 Using VAR and RETURN in Complex Power BI Measures
+
+The `VAR` keyword in DAX stores intermediate results (numbers, text, or tables) so you can reuse them later in the same measure.  
+The `RETURN` block defines what expression to output after all `VAR` values are calculated.
+
+---
+
+## 🧠 Why Use VAR
+- Simplifies complex logic.
+- Improves readability and performance.
+- Lets you reuse results without recalculating them.
+- Works perfectly in Table / Matrix visuals where each cell has its own filter context.
+
+---
+
+## 💡 Syntax
+```DAX
+<Measure Name> =
+VAR <var1> = <expression1>
+VAR <var2> = <expression2>
+RETURN
+<final_expression>
+
+# 🔢 Example 1 – Two VARs
+
+Profit Margin % =
+VAR TotalSales = SUM(Sales[Amount])
+VAR TotalCost  = SUM(Sales[Cost])
+RETURN
+DIVIDE(TotalSales - TotalCost, TotalSales)
+
+# Example 2 – Three VARs (KPI logic)
+
+KPI Status =
+VAR CurrentSales = SUM(Sales[Amount])
+VAR TargetSales  = AVERAGE(Targets[Goal])
+VAR Performance  = DIVIDE(CurrentSales, TargetSales)
+RETURN
+IF(
+    Performance >= 1, "✅ Met Target",
+    IF(Performance >= 0.9, "⚠️ Near Target", "❌ Below Target")
+)
+
+# 📊 Example 3 – VAR with a Table
+
+Top 5 Products =
+VAR Top5 = TOPN(5, Sales, Sales[Revenue], DESC)
+RETURN
+SUMX(Top5, Sales[Revenue])
+
+
+---
+
+# Running Final code
+
+Use Return
+
+
