@@ -142,9 +142,10 @@ LASTNONBLANK ensures rolling windows ignore gaps; `LASTDATE` can return blanks w
 
 Both functions return a single date, but the logic behind how they find it differs especially when blank values exist.
 
-Function	Purpose	Behavior	Use Case
-LASTDATE(column)	Returns the last date in the current context	Ignores blanks only in the date column	When you’re sure every date has data
-LASTNONBLANK(column, expression)	Returns the last date where the given expression isn’t blank	Ignores blanks based on the measure expression When data may have gaps (missing months, nulls, etc.)
+## Function, Purpose, Behavior,Use Case
+
+LASTDATE(column) returns the last date in the current context	Ignores blanks only in the date columnWhen you’re sure every date has data
+LASTNONBLANK(column, expression) returns the last date where the given expression isn’t blank	Ignores blanks based on the measure expression When data may have gaps (missing months, nulls, etc.)
 
 ## 🧠 Example: Comparing UNICHAR and LASTNOBLANK
 
