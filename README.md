@@ -191,10 +191,32 @@ IF(
 ```
 UNICHAR renders symbols in matrix/text visuals. Avoid confusing it with `CHAR` (ASCII-only).
 
+## 🧩 Difference between CHAR and UNICHAR
+Function	Character Set	Description	Example
+CHAR()	ASCII (0–255)	Returns a character based on the ANSI/ASCII code page. Works for English letters, digits, and common symbols only.	CHAR(65) → “A”
+UNICHAR()	Unicode (0–1114111)	Returns a character from the full Unicode set, covering emojis, icons, checkboxes, and symbols across all languages.	UNICHAR(0x2611) → “☑️”
+💡 In plain terms:
+
+CHAR() is limited — it’s old, tied to local code pages (like Windows-1252).
+
+UNICHAR() is modern, supports global symbols and emoji.
+
+In Power BI, always use UNICHAR(), because Power BI visuals render Unicode natively.
+
+## 🧠 Why the confusion
+
+People sometimes say “UNICHAR is ASCII-only” because:
+
+The lower range of Unicode (0–127) matches ASCII exactly.
+
+So for characters like A, B, C, or numbers, both CHAR(65) and UNICHAR(65) look identical.
+
+But beyond that range (≥128), UNICHAR supports thousands of characters, while CHAR breaks.
+
 ## 🔹 What UNICHAR Does
 
 UNICHAR() returns a Unicode character (symbol) based on its numeric code.
-It’s technically a text function, because its output is always text — even if it looks like a symbol or icon.
+It’s technically a text function, because its output is always text even if it looks like a symbol or icon.
 
 ## 🔹 Syntax
 UNICHAR(128515)   -- 😀
