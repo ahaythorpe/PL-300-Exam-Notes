@@ -547,3 +547,158 @@ Most tricky PL-300 questions test whether you understand how Power BI behaves be
 
 Focus on why each function exists, not just what it does.
 
+## 🧩 20. Node.js, Python, and JSON in Power BI
+
+### 🧠 Context
+Although Power BI itself doesn’t rely on Node.js or Python internally for its core data engine, both appear in the **exam** because they are supported for **extensibility** — creating custom visuals, running analytics scripts, or integrating external tools.
+
+---
+
+### 🟩 Node.js — Custom Visual Development
+- Power BI’s **Custom Visuals SDK** (`pbiviz`) is built on **Node.js + npm**.  
+- Developers install it using:
+
+
+**Key Role:**  
+Node.js provides the runtime for packaging and building **custom visuals** using JavaScript or TypeScript.  
+It is **not** used for data modeling, importing, or transformation inside Power BI Desktop.
+
+| Task | Uses Node.js? | Explanation |
+|------|----------------|-------------|
+| Creating visuals with custom JS libraries | ✅ | Node.js compiles and packages custom visuals. |
+| Importing or modeling data | ❌ | Handled by Power Query (M) and VertiPaq. |
+| Running visuals inside reports | ❌ | Visuals render in browser via Power BI framework. |
+
+**Memory Tip:**  
+> Node.js = Developer tool for building visuals, not part of the data engine.
+
+
+
+### 🟦 Python — Data Transformation and Analytics
+Power BI can **run Python scripts** directly for data import, transformation, and visualization.
+
+**Use Cases:**
+- Connect to and shape data:
+```python
+import pandas as pd
+df = dataset.groupby("Region")["Sales"].sum().reset_index()
+
+Here’s the **final section to append to your Tricky Power BI Questions Markdown** (you can paste this block at the end of your existing `.md` file).
+It includes the full explanation of **Node.js, Python, and JSON in Power BI** — complete with context, comparison tables, and key takeaways formatted consistently with the rest of your notes.
+
+---
+
+```markdown
+## 🧩 20. Node.js, Python, and JSON in Power BI
+
+### 🧠 Context
+Although Power BI itself doesn’t rely on Node.js or Python internally for its core data engine, both appear in the **exam** because they are supported for **extensibility** — creating custom visuals, running analytics scripts, or integrating external tools.
+
+---
+
+### 🟩 Node.js — Custom Visual Development
+- Power BI’s **Custom Visuals SDK** (`pbiviz`) is built on **Node.js + npm**.  
+- Developers install it using:
+```
+
+npm install -g powerbi-visuals-tools
+
+```
+- Then create and package visuals with:
+```
+
+pbiviz new MyVisual
+pbiviz start
+pbiviz package
+
+````
+
+**Key Role:**  
+Node.js provides the runtime for packaging and building **custom visuals** using JavaScript or TypeScript.  
+It is **not** used for data modeling, importing, or transformation inside Power BI Desktop.
+
+| Task | Uses Node.js? | Explanation |
+|------|----------------|-------------|
+| Creating visuals with custom JS libraries | ✅ | Node.js compiles and packages custom visuals. |
+| Importing or modeling data | ❌ | Handled by Power Query (M) and VertiPaq. |
+| Running visuals inside reports | ❌ | Visuals render in browser via Power BI framework. |
+
+**Memory Tip:**  
+> Node.js = Developer tool for building visuals, not part of the data engine.
+
+---
+
+### 🟦 Python — Data Transformation and Analytics
+Power BI can **run Python scripts** directly for data import, transformation, and visualization.
+
+**Use Cases:**
+- Connect to and shape data:
+```python
+import pandas as pd
+df = dataset.groupby("Region")["Sales"].sum().reset_index()
+````
+
+* Build advanced analytics (Machine Learning, forecasting).
+* Create Python visuals (e.g., Matplotlib, Seaborn, Plotly).
+
+**Setup:**
+Enable Python scripting via:
+`File → Options → Python scripting → Set Python home directory`.
+
+| Task                      | Uses Python? | Engine                          |
+| ------------------------- | ------------ | ------------------------------- |
+| Data shaping (via Pandas) | ✅            | Local Python runtime            |
+| Visualization             | ✅            | Matplotlib/Seaborn              |
+| Model refresh in Service  | ⚙️ Limited   | Needs gateway and local runtime |
+| Core Power Query (M)      | ❌            | M engine only                   |
+
+**Memory Tip:**
+
+> Python = Analytics and visualization inside Power BI Desktop.
+
+---
+
+### 🟨 JSON — Configuration and Data Format
+
+JSON is **widely used** in Power BI as a data interchange and configuration format.
+
+| Usage              | Description                                                                                                      |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------- |
+| **Themes**         | Report styles, colors, fonts stored as JSON files (`.json`).                                                     |
+| **Custom Visuals** | Visual manifest and settings stored in JSON within `.pbiviz` packages.                                           |
+| **Web API Data**   | Power Query retrieves API data in JSON and converts it using M functions (`Json.Document`, `Table.FromRecords`). |
+| **REST API**       | Power BI REST API returns and accepts JSON payloads for automation.                                              |
+
+**Example in Power Query:**
+
+```powerquery
+let
+    Source = Json.Document(Web.Contents("https://api.example.com/data")),
+    Records = Source[records],
+    Table = Table.FromRecords(Records)
+in
+    Table
+
+
+
+### 🔄 Combined Comparison Table
+
+| Technology  | Role                     | Used Inside Power BI Engine? | Typical Use                            | Example Exam Context                                                 |
+| ----------- | ------------------------ | ---------------------------- | -------------------------------------- | -------------------------------------------------------------------- |
+| **Node.js** | Custom Visual SDK        | ❌                            | Build and package visuals              | “Which environment is used to develop custom Power BI visuals?”      |
+| **Python**  | Analytics and scripting  | ✅ (locally)                  | Data transformation, ML, visualization | “Which scripting language allows you to create statistical visuals?” |
+| **JSON**    | Format and configuration | ✅ (as metadata)              | Themes, API data, visual manifests     | “Which format defines report theme settings in Power BI?”            |
+
+
+### 💡 Key Takeaways
+
+* **Node.js**: Powers **external SDK** (for developers) — not used in Power BI’s core engine.
+* **Python**: Used **inside Power BI Desktop** for data transformation and advanced visuals.
+* **JSON**: The **formatting and data-exchange language** across APIs, visuals, and themes.
+
+> 🧭 **Exam Hint:**
+>
+> * If a question mentions **building custom visuals** → Node.js / pbiviz CLI.
+> * If it mentions **statistical or ML analysis** → Python.
+> * If it mentions **report themes or web data** → JSON.
+
