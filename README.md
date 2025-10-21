@@ -74,7 +74,7 @@ SUMX(
 ```
 Use X-functions when the calculation references multiple columns or needs row context.
 
-### Context Control with `CALCULATE`
+### Context Control with CALCULATE
 ```dax
 Profit 2024 =
 CALCULATE(
@@ -136,7 +136,49 @@ CALCULATE(
     DATESINPERIOD('Date'[Date], LastDateWithData, -12, MONTH)
 )
 ```
-`LASTNONBLANK` ensures rolling windows ignore gaps; `LASTDATE` can return blanks when data skips months.
+LASTNONBLANK ensures rolling windows ignore gaps; `LASTDATE` can return blanks when data skips months.
+
+🧩 LASTDATE vs LASTNONBLANK — Time Intelligence Core Difference
+
+Both functions return a single date, but the logic behind how they find it differs — especially when blank values exist.
+
+Function	Purpose	Behavior	Use Case
+LASTDATE(column)	Returns the last date in the current context	Ignores blanks only in the date column	When you’re sure every date has data
+LASTNONBLANK(column, expression)	Returns the last date where the given expression isn’t blank	Ignores blanks based on the measure expression	When data may have gaps (missing months, nulls, etc.)
+
+🧠 Example: Comparing UNICHAR and LASTNOBLANK
+
+Imagine you have sales data missing for a few months:
+
+Date	Sales
+Jan	100
+Feb	200
+Mar	blank
+Apr	blank
+LastDate = LASTDATE('Date'[Date])
+LastWithSales = LASTNONBLANK('Date'[Date], [Total Sales])
+
+
+LASTDATE returns April — the last date in the column, even though there are no sales.
+
+LASTNONBLANK returns February — the last date that actually had sales data.
+
+That’s why LASTNONBLANK is more reliable in rolling or trailing period calculations.
+
+⚙️ When Ignoring Blank Spaces
+
+Blanks in DAX are not treated as “empty strings”; they are actual nulls.
+
+LASTDATE simply goes to the latest date value.
+
+LASTNONBLANK actively skips dates with no expression result.
+If your table has data gaps, LASTNONBLANK ensures your visuals or calculations (like rolling averages or DATEADD offsets) don’t break or show blank results.
+
+✅ Summary Table
+Function	Returns	Ignores Blanks?	Typical Usage
+UNICHAR	Text (symbol)	N/A	Replace text/boolean with icons in visuals
+LASTDATE	Single date	Only skips missing date values	Full continuous calendar (no gaps)
+LASTNONBLANK	Single date	Skips blank expressions	Trailing periods, sparse data handling
 
 ### Visual Indicators
 ```dax
@@ -147,8 +189,36 @@ IF(
     ""
 )
 ```
-`UNICHAR` renders symbols in matrix/text visuals. Avoid confusing it with `CHAR` (ASCII-only).
+UNICHAR renders symbols in matrix/text visuals. Avoid confusing it with `CHAR` (ASCII-only).
 
+🔹 What UNICHAR Does
+
+UNICHAR() returns a Unicode character (symbol) based on its numeric code.
+It’s technically a text function, because its output is always text — even if it looks like a symbol or icon.
+
+🔹 Syntax
+UNICHAR(128515)   -- 😀
+UNICHAR(0x2611)   -- ☑️ Checkbox
+
+🔹 When to Use UNICHAR
+
+To show visual cues inside a Table, Matrix, or Card visual.
+
+To replace binary results (TRUE/FALSE) with readable icons — e.g. a checkmark, star, or arrow.
+
+Often used with IF() or SWITCH() for KPIs or conditional formatting.
+
+✅ Example
+
+Has Appointment =
+IF(
+    COUNTROWS(Appointments) > 0,
+    UNICHAR(0x2611),  -- ☑️
+    UNICHAR(0x2610)   -- ☐
+)
+
+
+So yes — UNICHAR is a text function, and its use is mostly presentation-focused rather than analytical.
 ---
 
 ## 🟠 Visualize & Analyze
