@@ -1,8 +1,6 @@
 
 # 📘 PL-300 Power BI Data Analyst — Illustrated Study Guide (2025 Edition)
 
-
-
 # Install packages 
 
 This command is a terminal prompt
