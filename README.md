@@ -596,6 +596,88 @@ APIs or JSON files → Get JSON Data”
 If question mentions “HTML tags” → **Web Scraping**  
 If it mentions “API” or “endpoint” → **Get JSON Data**
 
+# Measure vs calculated Column
+
+A measure is an aggregation of data, while a calculated column is a new column created from existing data.
+
+# 🧠 Concept Simplified
+Feature	Calculated Column	Measure
+Definition	Adds a new field (column) to your table.	Performs aggregation on your data.
+Calculated At	Row level (each row evaluated).	Filter level (depends on visuals, slicers).
+Storage	Stored in model → increases file size.	Not stored → calculated on the fly.
+Context	Row Context.	Filter Context.
+Example	Profit = Sales[Revenue] - Sales[Cost]	Total Profit = SUM(Sales[Profit])
+Performance	Slower (uses memory).	Faster (computed dynamically).
+
+# 🧩 Exam Tip - Measure vs caluculated column
+
+“If it adds a column → Calculated Column.
+If it adds a value in a visual → Measure.”
+
+# How to manage it in the exam (Meausure and calculated column)
+
+- Look for keywords like “new field”, “new column”, or “row-level” → choose Calculated Column.
+
+- Look for words like “sum”, “average”, “aggregation”, “in visuals”, “total” → choose Measure.
+
+If the question mentions “affected by filters/slicers”, always go with Measure — columns don’t react to visuals dynamically.
+
+# ⚠️ Common Mistakes Measure & calculated column
+Trap	Why Wrong
+
+- “Measure = single column calc”	Measures aggregate across many rows, not just one column.
+- “Calculated column = aggregation”	Columns cannot aggregate — they work row by row.
+- “Calculated columns are dynamic”	❌ They are static; only recalc when data refreshes.
+
+# 💡 Memory Hook - Measure & calculated column
+“Column = Created field, stored.
+Measure = Mathematical summary, dynamic.”
+
+# Purpose of Data flows in power BI
+
+# 🧠 Concept Simplified
+
+Dataflows are Power Query in the cloud.
+They let you extract, transform, and load data (ETL) at the service level — reusable across multiple datasets and reports.
+
+# ⚙️ Key Characteristics
+
+## Feature	Description
+- Purpose	Centralize data prep (ETL) — “transform once, reuse everywhere.”
+- Storage	Data saved to Azure Data Lake (behind the scenes).
+- Tool	Same Power Query engine as Desktop.
+- Use Case	When multiple reports share the same data prep logic.
+- Refresh	Scheduled in Power BI Service.
+  
+## ⚖️ Comparison — Dataset vs Dataflow
+
+## Feature	Dataset	Dataflow
+
+- Lives in	Power BI Service / Desktop	Power BI Service only
+- Purpose	Model + Relationships + Measures	Transformation + Reusable tables
+- Refresh	Refreshes dataset in workspace	Refreshes raw transformed data
+- Users	Report builders	Data engineers or admins
+
+## ⚠️ Common Exam Trap - Purpose of Data Flows
+
+Option like “Manage data sources” is partially correct but not the primary purpose.
+
+Always look for “Transform and Clean Data” as the right answer.
+
+## Main focus of data flows is to transform and clean data tehn manage.
+
+# 💡 Memory Hook
+
+“Dataflows flow your transformations —
+Datasets set your models.”
+
+# 🧩 Exam Strategy - Purpose Data Flow
+
+If the question mentions “transform”, “Power Query”, or “reusable tables” → ✅ Dataflow
+
+If it says “visualize”, “build measures”, or “relationships” → ✅ Dataset
+
+
 ## 🏁 Final Exam-Day Reminders
 - Read each scenario twice; highlight keywords (data latency, governance, self-service).
 - Validate calculation context—ask: **Which table? Which filters? Which grain?**
