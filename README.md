@@ -53,11 +53,13 @@ Connect → Transform → Clean → Load. Always validate column data types befo
 
 ## 🧩 Relationship Cardinality — One-to-Many vs Many-to-Many
 Type	Definition	Example	Exam Clue
+
 1: (One-to-Many)*	One unique key filters many records	Customer → Sales	Most common, default relationship
-: (Many-to-Many)	Both sides contain duplicate keys	Products ↔ Promotions	Requires composite or bridge table
+Many:Many  (Many-to-Many)	Both sides contain duplicate keys	Products ↔ Promotions	Requires composite or bridge table
 1:1 (One-to-One)	Unique match between two tables	Employee → EmployeeDetails	Used for column splitting or security
 Inactive Relationship	Exists but not used unless activated	Alternate date (e.g., ShipDate vs OrderDate)	Use USERELATIONSHIP() in DAX
-🧠 Memory Hook
+
+## 🧠 Memory Hook
 
 "Dimension filters fact — one filters many."
 
