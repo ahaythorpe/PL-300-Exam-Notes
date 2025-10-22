@@ -51,7 +51,7 @@ Connect → Transform → Clean → Load. Always validate column data types befo
 
 📝 **Mini Exam Q:** Finance and Sales reports share one `Date` table and need shared slicers. → Enable bi-directional filtering **only** on the Date relationship, or use a role-playing Date dimension per model design guidelines.
 
-🧩 Relationship Cardinality — One-to-Many vs Many-to-Many
+## 🧩 Relationship Cardinality — One-to-Many vs Many-to-Many
 Type	Definition	Example	Exam Clue
 1: (One-to-Many)*	One unique key filters many records	Customer → Sales	Most common, default relationship
 : (Many-to-Many)	Both sides contain duplicate keys	Products ↔ Promotions	Requires composite or bridge table
