@@ -407,6 +407,44 @@ Table.ReplaceValue(
 ```
 Replaces substring matches inside specified columns.
 
+## 'Power BI Service and sending ALert updates'
+
+## 🧩 Rule of Thumb — “Subscription vs Alert”
+Situation	What They Want	Correct Feature	Why
+They want regular updates (daily/weekly/monthly)	“Send me this report every morning.”	✅ Subscription	Sends a scheduled snapshot of a report or dashboard.
+They want to be notified when a metric crosses a threshold	“Alert me when profit < $100 K.”	⚙️ Data Alert	Fires only when a condition is met — not on schedule.
+They just want to see changes in the Service	“I’ll check my dashboard anytime.”	No alert or subscription needed	They can view in Power BI Service directly.
+🧠 Exam Strategy
+
+When the question wording is vague or ambiguous:
+
+Default to Subscription if it mentions any kind of regular / scheduled / daily / recurring notification.
+
+Treat Alert as niche — only use it when a threshold trigger is explicitly stated.
+
+⚠️ Why Alerts Are “Less Useful” for Regular Updates
+
+Because:
+
+They don’t trigger unless the metric crosses your defined limit.
+
+They’re per-user only (each person must set it up manually).
+
+They don’t send full dashboards — just numeric threshold notices.
+
+In contrast, Subscriptions:
+
+Can be created by anyone with at least Viewer access.
+
+Deliver whole report snapshots automatically.
+
+Are time-based, not condition-based — making them ideal for routine updates or executives who want daily KPIs.
+
+🧩 Memory Hook
+
+“If it’s time-based → Subscription.
+If it’s threshold-based → Alert.”
+
 ### JSON & Web APIs
 ```powerquery
 let
