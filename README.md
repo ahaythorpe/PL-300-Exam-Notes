@@ -885,7 +885,7 @@ Use Trim, Clean and Replace Values to ensure:
 
 - Standard naming conventions
 
-🧠 Exam Tip
+## 🧠 Exam Tip
 
 ## If a question mentions:
 
