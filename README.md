@@ -79,6 +79,83 @@ CALCULATE([Total Sales], USERELATIONSHIP('Date'[Date], Sales[ShipDate]))
 
 ## Core data modelling concepts 
 
+## 🧩 Append VS Merge Example Scenario
+
+“Multiple tables with the same columns, each containing data for a different month.”
+
+Goal: Combine these monthly tables into one unified table for reporting.
+
+✅ Correct Answer: Append Queries
+
+## 🧠 Explanation
+
+Append Queries = Stack tables vertically (add rows).
+
+This method is used when:
+
+Each table has identical column names and structure.
+
+You want one combined table that contains all rows from each monthly file.
+
+## Example:
+
+January_Sales	February_Sales
+Product	Product
+Quantity	Quantity
+Amount	Amount
+
+## → After Append:
+
+Product	Quantity	Amount
+A	10	100
+B	15	200
+A	12	120
+
+✅ Now, visuals and measures can aggregate across months.
+
+❌ Incorrect: Merge Queries
+
+## ⚙️ What Merge Does
+
+Merge Queries = Join tables horizontally (add columns).
+It’s like a VLOOKUP in Excel — it matches rows using a key field.
+
+## Use Merge when:
+
+Tables have different columns but share a common key (like CustomerID or OrderID).
+
+You want to bring in additional fields from another table.
+
+Example:
+
+Orders	Customers
+OrderID	CustomerID
+Amount	Name
+CustomerID	Country
+
+→ Merge on CustomerID → combines columns, not rows.
+
+## 🧮 Quick Comparison Table
+Feature	Append Queries	Merge Queries
+Action	Stack rows (vertical union)	Join columns (horizontal join)
+When to use	Monthly or regional tables with same columns	Related tables sharing a key
+Analogy	UNION in SQL	JOIN in SQL
+Output	Adds rows to one table	Adds columns to one table
+
+## 🧠 Exam Tips - Append Vs Merge
+
+If the question says:
+
+“Same columns” → Append Queries ✅
+
+“Related by key” → Merge Queries ✅
+
+“Combine files from folder” → Combine Files ✅ (automates append for all files in a folder)
+
+## 🧩 Memory Hook
+
+“Append adds rows — Merge matches columns.”
+
 ## 🧩 Column Quality, Column Profile, and Column Distribution in Power Query
 
 These three tools are part of Data Profiling in Power BI Power Query — they help you understand, clean, and validate your dataset before loading it into your data model.
@@ -92,7 +169,7 @@ Power Query Editor → View tab → Data Preview section
 Purpose:
 Shows data validity summary (valid, error, empty) for each column.
 
-Metric	Description
+## Metric	Description - Column Quality
 ✅ Valid	Rows with acceptable / correctly formatted data.
 ⚠️ Error	Rows with formula or data type errors.
 ⚪ Empty	Null or blank values.
@@ -817,7 +894,7 @@ Option	Why It’s Wrong
 “Dataflows build datasets,
 Datasets serve reports.”
 
-## 🧩 Exam Tis - Data connection and connecting to endoresed data sets
+## 🧩 Exam Tips - Data connection and connecting to endoresed data sets
 
 If the question mentions:
 
