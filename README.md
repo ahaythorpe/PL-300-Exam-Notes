@@ -110,6 +110,9 @@ Shifts a date column forward or backward by the specified number and interval (D
 DATEADD() doesn’t aggregate; it returns a table of shifted dates.
 Combine it with CALCULATE() to re-evaluate measures for a different period.
 
+## it can be used to 'compare' over time periods with the previous year. 
+
+## Example DATEADD Comparison
 Sales Previous Year =
 CALCULATE(
     [Total Sales],
@@ -136,7 +139,7 @@ Q2. The dataset has missing dates (non-continuous).
 Q3. Compare this month to the same month last year, same shape of dates.
 → ✅ Use SAMEPERIODLASTYEAR.
 
-🧩 Common Mistakes Summary
+## 🧩 Common Mistakes Summary DATEADD
 Function	Mistake	Fix
 ALL()	Used when filter context needed	Use ALLSELECTED() or ALLEXCEPT()
 DATEADD()	Non-continuous dates cause error	Use PARALLELPERIOD()
@@ -215,6 +218,20 @@ Q2. You need to rank regions based on slicer selection only.
 Q3. The report must calculate total profit unaffected by a page slicer.
 → ✅ Use ALL() on the relevant table or column.
 
+## Summary Comparison Table - calculated vs COUNTROWS maxising model performance
+Approach	Where Done	Model Size	Query Performance	Meets Requirement?
+Calculated Measure (COUNTROWS)	DAX (post-load)	❌ Large	❌ Slow (row scan)	❌ No
+Calculated Table (summarize after load)	DAX (post-load)	❌ Large pre-aggregation	⚠️ Partial	⚠️ Not ideal
+Power Query “Group By”	ETL (pre-load)	✅ Small	✅ Fast	✅ Correct
+
+## 🧠 Exam Tip
+
+“If the question mentions minimizing model size always think aggregation before import never a calculated measure.”
+
+## Minimising model memeory tricks 
+
+Calculated eg. COUNTROWS slow and loads everything
+Aggregation eg. Power query Group by = fast and minimises time
 
 ### Handling Sparse Data
 ```dax
