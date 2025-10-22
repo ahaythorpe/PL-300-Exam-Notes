@@ -532,6 +532,70 @@ df = dataset.groupby("Region")["Sales"].sum().reset_index()
 
 ---
 
+## 🧩 Web Scraping vs JSON Data in Power BI
+
+
+Web Scraping is a Power BI feature that allows you to navigate through HTML tags to extract data from a webpage.
+When you use the Web connector in Power BI Desktop (Get Data → Web), Power Query displays a Navigator pane that lists:
+
+* Detected HTML tables
+
+* Document view (HTML structure)
+
+* Option to transform data by traversing HTML nodes (like <table>, <div>, etc.)
+
+💡 Essentially, Web Scraping lets Power BI read structured or semi-structured data directly from web pages, even if no API is provided.
+
+⚙️ Example
+
+Scenario:
+You connect to a Wikipedia page with financial tables (e.g., "List of countries by GDP").
+
+let
+    Source = Web.Page(Web.Contents("https://en.wikipedia.org/wiki/List_of_countries_by_GDP")),
+    Data = Source{0}[Data]
+in
+    Data
+
+
+Web.Contents() loads the web page.
+
+Web.Page() tells Power BI to interpret HTML and extract tabular structures.
+
+The Navigator shows all detected tables ready for load.
+
+⚠️ Common Confusion — “Get JSON Data” vs “Web Scraping”
+Feature	Description	When to Use	Typical File Format
+Web Scraping	Extracts HTML elements (tables, divs, tags)	For standard web pages	.html
+Get JSON Data	Extracts structured data from an API endpoint or .json file	When site exposes a REST API or JSON feed	.json
+
+So, if the question mentions “HTML tags”, “web pages”, or “tables within a website”,
+➡️ Answer: Web Scraping
+
+If it mentions “API”, “endpoint”, “structured feed”, “JSON object”,
+➡️ Answer: Get JSON Data
+
+❌ Incorrect Option: Scaffolding
+
+“Scaffolding” is unrelated to Power BI’s data extraction — it’s a software development term for automatically generating project structure or code templates (not used in Power BI).
+
+🧠 Exam Tip
+
+“HTML tags → Web Scraping
+APIs or JSON files → Get JSON Data”
+
+📘 Add to “Tricky Questions” Section
+### 🧩 Web Scraping vs JSON Data
+
+| Feature | Data Source Type | Extracts From | Example Use |
+|----------|------------------|---------------|--------------|
+| **Web Scraping** | HTML web pages | `<table>`, `<div>`, `<span>` | Import data from Wikipedia or online dashboards |
+| **Get JSON Data** | REST APIs / JSON feeds | JSON objects | Import structured data from APIs |
+
+**Key Rule:**  
+If question mentions “HTML tags” → **Web Scraping**  
+If it mentions “API” or “endpoint” → **Get JSON Data**
+
 ## 🏁 Final Exam-Day Reminders
 - Read each scenario twice; highlight keywords (data latency, governance, self-service).
 - Validate calculation context—ask: **Which table? Which filters? Which grain?**
