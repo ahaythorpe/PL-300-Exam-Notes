@@ -647,6 +647,7 @@ in
 `Json.Document` parses API payloads; convert to records/tables for modeling.
 
 ---
+## Tricky questions and common exam traps 
 
 ## 🧩 Extensibility: Node.js, Python, JSON
 
@@ -681,7 +682,6 @@ df = dataset.groupby("Region")["Sales"].sum().reset_index()
 | Python | Data transformation & visuals | ✅ (local runtime) | “Which scripting language adds statistical charts?” |
 | JSON | Metadata & data exchange | ✅ (format) | “Which format defines report themes?” |
 
----
 
 ## 🧩 Exam Traps & Memory Boosters
 - Forgetting to mark Date tables → time intelligence returns blanks.
@@ -752,7 +752,7 @@ If it mentions “API”, “endpoint”, “structured feed”, “JSON object�
 
 “Scaffolding” is unrelated to Power BI’s data extraction — it’s a software development term for automatically generating project structure or code templates (not used in Power BI).
 
-🧠 Exam Tip
+## 🧠 Exam Tips - Get JSON Vs Web Scraping
 
 “HTML tags → Web Scraping
 APIs or JSON files → Get JSON Data”
@@ -832,7 +832,7 @@ They let you extract, transform, and load data (ETL) at the service level — re
 - Refresh	Refreshes dataset in workspace	Refreshes raw transformed data
 - Users	Report builders	Data engineers or admins
 
-## ⚠️ Common Exam Trap - Purpose of Data Flows
+# ⚠️ Common Exam Trap - Purpose of Data Flows
 
 Option like “Manage data sources” is partially correct but not the primary purpose.
 
@@ -975,6 +975,267 @@ If it mentions:
 ## 🧩 Memory Hook
 
 “Replace fixes labels, Remove deletes rows.”
+
+## 📘 Explanation – Editing Excel Workbooks from OneDrive in Power BI
+
+This question tests how Power BI interacts with cloud-stored Excel files, specifically OneDrive for Business.
+
+## ❌ The Misconception:
+
+“The Excel workbook can be edited in Power BI.”
+
+You cannot edit an Excel file directly inside Power BI Desktop or Power BI Service.
+Power BI imports or connects to Excel files as a data source, but editing must be done externally — in Excel itself.
+
+## ✅ Correct Behavior:
+
+If the Excel file is stored in OneDrive for Business or SharePoint Online, Power BI maintains a live connection to it.
+That means:
+
+You edit the Excel file in Excel (or Excel Online).
+
+Power BI automatically refreshes to reflect those changes, typically within an hour.
+
+You do not need to re-import or re-upload the file.
+
+## 🧠 Exam Tip - Editing workbook Onedrive from Power BI:
+
+Task	Tool / Location	Notes
+Edit data	Excel (desktop or online)	Not Power BI
+Connect to Excel file	Power BI Desktop / Service	Use OneDrive or SharePoint path
+Auto-refresh	Power BI Service	Keeps synced automatically
+Replace with updated workbook	Do it in OneDrive	Power BI detects and refreshes
+
+## ⚙️ Memory Hook:
+
+“Power BI reads, Excel writes.”
+You read data from Excel in Power BI, but all edits happen in Excel, not in Power BI.
+
+## 🧠 Explanation — AVERAGEX with KEEPFILTERS in Power BI
+
+This question tests your understanding of row context vs. filter context and the correct DAX function combination for dynamic aggregation measures.
+
+✅ Correct Measure:
+Average Product Profit =
+AVERAGEX(
+    KEEPFILTERS(VALUES('financials'[Product])),
+    CALCULATE(AVERAGE('financials'[Profit]))
+)
+
+## 📘 Why This Is Correct
+1. AVERAGEX
+
+Iterates row by row across the table (or product list).
+
+For each row (product), it calculates an expression (here, the average profit per product).
+
+Then, it returns the average of all those results.
+This makes it dynamic and compatible with visuals and filters in Power BI.
+
+2. KEEPFILTERS()
+
+Ensures that any existing filters in visuals (e.g., category, region) are preserved.
+
+Without KEEPFILTERS, CALCULATE() could overwrite filter context, giving misleading results.
+
+It effectively says: “Keep the existing filter context but evaluate my custom logic within it.”
+
+3. CALCULATE(AVERAGE(...))
+
+CALCULATE changes the context to evaluate the average profit per filtered product.
+
+Wrapping the AVERAGE inside CALCULATE ensures the result updates based on slicers or applied filters.
+
+## ⚠️ Why Other Options Are Wrong
+
+Option	Problem
+AVERAGE() alone	Aggregates all rows without respecting row context → wrong for per-product logic.
+FILTER()	Returns a table, not a scalar — cannot be directly used for numeric measure output.
+ALL()	Removes all filters → breaks product-level granularity and makes results misleading.
+SUMMARIZE()	Used for table construction, not for numeric measure evaluation.
+🧩 Exam Tip
+Function	Role	Common Trap
+AVERAGE()	Static column average	Ignores context when combined with filters
+AVERAGEX()	Row-wise dynamic average	Correct for filtered calculations
+KEEPFILTERS()	Keeps external filters active	Without it, CALCULATE may override filters
+CALCULATE()	Changes filter context	Must output a scalar expression (like AVERAGE or SUM)
+
+## Memory Hook:
+
+“AVERAGEX calculates row by row — AVERAGE just looks at the whole column.”
+
+🧠 Add to Notes (📘 DAX & Context → Iterators & Filters Section)
+
+## New Entry:
+
+AVERAGEX + KEEPFILTERS Pattern
+
+Use when you need to compute a filtered dynamic average per category.
+
+AVERAGEX() iterates across each unique product or dimension.
+
+KEEPFILTERS() ensures visual or slicer context isn’t lost.
+
+Always wrap the aggregation (like AVERAGE, SUM) inside CALCULATE() to make it context-aware.
+
+## 🧠 Why Use Cross Filter Direction = Both in Power BI (RLS Scenario)
+
+Let’s break down the logic from your question about Employee and Region tables and why Cross Filter Direction = Both is required for Row-Level Security (RLS) to function correctly.
+
+## 🔗 1. Background — The Relationship Setup
+
+Employee Table → contains many employees.
+
+Region Table → contains unique regions (e.g., “East”, “West”).
+
+They are linked through RegionID.
+
+Cardinality: Many-to-One (Many Employees → One Region).
+
+This is a standard star schema setup.
+
+## 🔒 2. What RLS (Row-Level Security) Does
+
+Row-Level Security filters data based on user roles or attributes — for example:
+
+A Regional Manager should only see data for employees in their assigned region.
+
+If RLS is applied to the Region table, Power BI must propagate that filter down to the Employee table.
+
+However, this propagation depends on the filter direction of the relationship.
+
+## 🔄 3. Why You Need Cross Filter = Both
+
+Normally relationships filter from the “One” side → to the “Many” side.
+
+That means filtering Region → Employee works automatically.
+
+But RLS often needs both directions, especially when:
+
+Filters are defined at the employee level (e.g., login context or security table).
+
+The role-based filter must travel back up to the related tables (Region → Employee or Employee → Region).
+
+By setting Cross Filter Direction = Both, you allow Power BI to:
+
+Propagate security filters in both directions, ensuring both Employee and Region data align.
+
+Maintain consistent visibility (e.g., hiding employees in unauthorized regions and removing those regions from visuals).
+
+## ⚙️ 4. Why “Apply Security Filter in Both Directions” Is Also Needed
+
+The “Apply security filter in both directions” checkbox reinforces RLS logic beyond normal filters:
+
+Ensures bi-directional filtering specifically for security roles.
+
+Prevents bypassing RLS by navigating through related tables.
+
+Is crucial when a dimension table (Region) filters a fact table (Employee), or vice versa.
+
+## 💡 Memory Trick cross filter:
+
+Cross Filter = Both → enables filter flow both ways.
+Apply Security Filter Both Ways → extends that behavior to security roles.
+
+## ⚠️ 5. Why Not Change Cardinality
+
+You should not set cardinality to One-to-One:
+
+Many employees can belong to one region → this is a Many-to-One relationship.
+
+Changing to One-to-One would break data integrity and cause incorrect filtering.
+
+## 🧩 Exam Tip — Quick Recall Grid
+Setting	Purpose	When to Use
+Single Direction	Filters flow one way (default)	Safe for performance; standard relationships
+Both Direction	Filters flow both ways	Needed for RLS, shared dimensions, or complex reporting
+Apply Security Filter in Both Directions	Enforces RLS filter sync	Mandatory when securing related tables
+One-to-One	Rare, use only for unique keys	Not for Employee–Region setups
+
+## ✅ Summary
+
+For RLS between Employee and Region:
+
+Set Cross Filter Direction = Both
+
+Enable Apply Security Filter in Both Directions
+
+## 📘 What Are M Formulas in Power BI?
+
+M formulas (or Power Query M language) are the scripting and formula language used inside the Power Query Editor in Power BI, Excel and other Microsoft data tools.
+
+## 🧩 1. What “M” Stands For
+
+The “M” in Power Query stands for Mashu  as the language is designed for data mashups  combining, transforming and cleaning data from multiple sources before loading it into Power BI.
+
+Example:
+
+= Table.AddColumn(Source, "Total Price", each [Quantity] * [Unit Price])
+
+
+This formula adds a new column called Total Price that multiplies two columns from the source table.
+
+## ⚙️ 2. Where M Is Used
+
+You encounter M formulas in:
+
+The Power Query Editor (Transform Data window)
+
+## The Advanced Editor
+
+Custom column or parameter creation
+
+Function or query editing (behind the GUI)
+
+You can view or edit M code for any transformation by selecting:
+
+## Home → Advanced Editor
+
+## 🧠 3. Key Concepts of M Language
+Concept	Description
+Case-sensitive	Table.AddColumn ≠ table.addcolumn
+Functional language	Everything is an expression that returns a value (no loops or variables in the traditional sense).
+Step-based	Each transformation step depends on the one above it (chained by = and references like #“Changed Type”).
+Immutable data	You can’t directly change a value — you create a new version with the transformation applied.
+
+## 🧮 4. Example M Formula Breakdown
+let
+    Source = Excel.Workbook(File.Contents("C:\Sales.xlsx"), null, true),
+    SalesData = Source{[Name="Sheet1"]}[Content],
+    ChangedType = Table.TransformColumnTypes(SalesData, {{"Amount", type number}}),
+    Filtered = Table.SelectRows(ChangedType, each [Amount] > 1000)
+in
+    Filtered
+
+
+Step-by-step explanation:
+
+Source – Loads data from Excel.
+
+SalesData – Selects the “Sheet1” table.
+
+ChangedType – Converts the “Amount” column to a number.
+
+Filtered – Keeps only rows where “Amount” > 1000.
+
+in Filtered – Returns the final output of the query.
+
+## 🧰 5. Common M Functions
+Function	Purpose
+Table.SelectRows	Filters rows based on a condition
+Table.AddColumn	Adds a calculated column
+Table.RenameColumns	Renames one or more columns
+Text.Upper	Converts text to uppercase
+Number.Round	Rounds a numeric value
+Date.AddDays	Adds or subtracts days from a date
+
+## 💡 6. M vs DAX — Key Difference
+Aspect	M (Power Query)	DAX (Data Model)
+Stage	Before load (ETL stage)	After load (in the model)
+Purpose	Transform & clean data	Create measures & calculations
+Case sensitivity	Case-sensitive	Case-insensitive
+Data refresh	Runs on refresh only	Runs during report interaction
+Example	Table.AddColumn(...)	CALCULATE(SUM(Sales[Amount]))
 
 ## 🏁 Final Exam-Day Reminders
 
