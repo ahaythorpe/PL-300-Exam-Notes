@@ -597,14 +597,25 @@ Table.ReplaceValue(
 ```
 Replaces substring matches inside specified columns.
 
-## 'Power BI Service and sending ALert updates'
+## Steps using performance Analyser - identofying slow visuals 
+
+1️⃣ Add a blank report page (avoid cached visuals)
+2️⃣ Restart Power BI Desktop (clear cache)
+3️⃣ Start recording in Performance Analyzer
+4️⃣ Interact with visuals
+5️⃣ Stop recording & review visual performance times
+
+ Measures: DAX Query, Visual Display, and Other time
+
+## Power BI Service and sending Alert updates
 
 ## 🧩 Rule of Thumb — “Subscription vs Alert”
 Situation	What They Want	Correct Feature	Why
 They want regular updates (daily/weekly/monthly)	“Send me this report every morning.”	✅ Subscription	Sends a scheduled snapshot of a report or dashboard.
 They want to be notified when a metric crosses a threshold	“Alert me when profit < $100 K.”	⚙️ Data Alert	Fires only when a condition is met — not on schedule.
 They just want to see changes in the Service	“I’ll check my dashboard anytime.”	No alert or subscription needed	They can view in Power BI Service directly.
-🧠 Exam Strategy
+
+## 🧠 Exam Strategy
 
 When the question wording is vague or ambiguous:
 
@@ -730,7 +741,6 @@ let
 in
     Data
 
-
 Web.Contents() loads the web page.
 
 Web.Page() tells Power BI to interpret HTML and extract tabular structures.
@@ -757,7 +767,6 @@ If it mentions “API”, “endpoint”, “structured feed”, “JSON object�
 “HTML tags → Web Scraping
 APIs or JSON files → Get JSON Data”
 
-📘 Add to “Tricky Questions” Section
 
 ### 🧩 Web Scraping vs JSON Data
 
@@ -1082,7 +1091,7 @@ Always wrap the aggregation (like AVERAGE, SUM) inside CALCULATE() to make it co
 
 Let’s break down the logic from your question about Employee and Region tables and why Cross Filter Direction = Both is required for Row-Level Security (RLS) to function correctly.
 
-## 🔗 1. Background — The Relationship Setup
+## 🔗 Background — The Relationship Setup
 
 Employee Table → contains many employees.
 
@@ -1094,7 +1103,7 @@ Cardinality: Many-to-One (Many Employees → One Region).
 
 This is a standard star schema setup.
 
-## 🔒 2. What RLS (Row-Level Security) Does
+## 🔒 What RLS (Row-Level Security) Does
 
 Row-Level Security filters data based on user roles or attributes — for example:
 
@@ -1104,7 +1113,7 @@ If RLS is applied to the Region table, Power BI must propagate that filter down 
 
 However, this propagation depends on the filter direction of the relationship.
 
-## 🔄 3. Why You Need Cross Filter = Both
+## 🔄 Why You Need Cross Filter = Both
 
 Normally relationships filter from the “One” side → to the “Many” side.
 
@@ -1122,7 +1131,7 @@ Propagate security filters in both directions, ensuring both Employee and Region
 
 Maintain consistent visibility (e.g., hiding employees in unauthorized regions and removing those regions from visuals).
 
-## ⚙️ 4. Why “Apply Security Filter in Both Directions” Is Also Needed
+## ⚙️ Why “Apply Security Filter in Both Directions” Is Also Needed
 
 The “Apply security filter in both directions” checkbox reinforces RLS logic beyond normal filters:
 
@@ -1137,7 +1146,7 @@ Is crucial when a dimension table (Region) filters a fact table (Employee), or v
 Cross Filter = Both → enables filter flow both ways.
 Apply Security Filter Both Ways → extends that behavior to security roles.
 
-## ⚠️ 5. Why Not Change Cardinality
+## ⚠️ Why Not Change Cardinality
 
 You should not set cardinality to One-to-One:
 
@@ -1164,7 +1173,7 @@ Enable Apply Security Filter in Both Directions
 
 M formulas (or Power Query M language) are the scripting and formula language used inside the Power Query Editor in Power BI, Excel and other Microsoft data tools.
 
-## 🧩 1. What “M” Stands For
+## 🧩 What “M” Stands For
 
 The “M” in Power Query stands for Mashu  as the language is designed for data mashups  combining, transforming and cleaning data from multiple sources before loading it into Power BI.
 
@@ -1175,7 +1184,7 @@ Example:
 
 This formula adds a new column called Total Price that multiplies two columns from the source table.
 
-## ⚙️ 2. Where M Is Used
+## ⚙️ Where M Is Used
 
 You encounter M formulas in:
 
@@ -1191,14 +1200,14 @@ You can view or edit M code for any transformation by selecting:
 
 ## Home → Advanced Editor
 
-## 🧠 3. Key Concepts of M Language
+## 🧠 Key Concepts of M Language
 Concept	Description
 Case-sensitive	Table.AddColumn ≠ table.addcolumn
 Functional language	Everything is an expression that returns a value (no loops or variables in the traditional sense).
 Step-based	Each transformation step depends on the one above it (chained by = and references like #“Changed Type”).
 Immutable data	You can’t directly change a value — you create a new version with the transformation applied.
 
-## 🧮 4. Example M Formula Breakdown
+## 🧮 Example M Formula Breakdown
 let
     Source = Excel.Workbook(File.Contents("C:\Sales.xlsx"), null, true),
     SalesData = Source{[Name="Sheet1"]}[Content],
@@ -1220,7 +1229,7 @@ Filtered – Keeps only rows where “Amount” > 1000.
 
 in Filtered – Returns the final output of the query.
 
-## 🧰 5. Common M Functions
+## 🧰 Common M Functions
 Function	Purpose
 Table.SelectRows	Filters rows based on a condition
 Table.AddColumn	Adds a calculated column
@@ -1229,13 +1238,144 @@ Text.Upper	Converts text to uppercase
 Number.Round	Rounds a numeric value
 Date.AddDays	Adds or subtracts days from a date
 
-## 💡 6. M vs DAX — Key Difference
+## 💡 M vs DAX — Key Difference
 Aspect	M (Power Query)	DAX (Data Model)
 Stage	Before load (ETL stage)	After load (in the model)
 Purpose	Transform & clean data	Create measures & calculations
 Case sensitivity	Case-sensitive	Case-insensitive
 Data refresh	Runs on refresh only	Runs during report interaction
 Example	Table.AddColumn(...)	CALCULATE(SUM(Sales[Amount]))
+
+
+## Exam Tip (PL-300)
+
+Expect questions asking:
+
+Where M is used (Power Query)
+
+How to view M code (Advanced Editor)
+
+The difference between DAX and M
+
+Common transformations written in M (filtering, joining, adding columns)
+
+## USERELATIONSHIPS Common use cases beyond DAX
+
+## 🧠 What USERELATIONSHIP() Actually Does
+
+When you have multiple relationships between two tables (for example, between a Date table and a Sales table), only one relationship can be active at a time.
+
+However, sometimes you need to use a different relationship temporarily — that’s where USERELATIONSHIP() comes in.
+
+It’s used inside DAX measures (not in Power Query) to tell Power BI:
+
+“For this calculation, use this other relationship instead of the active one.”
+
+## 📘 Syntax
+CALCULATE(<expression>, USERELATIONSHIP(<column1>, <column2>))
+
+
+## Example:
+
+Sales by Ship Date =
+CALCULATE(
+    SUM(Sales[Amount]),
+    USERELATIONSHIP(Sales[ShipDate], 'Date'[Date])
+)
+
+
+You might already have an active relationship between 'Date'[Date] and Sales[OrderDate].
+
+The USERELATIONSHIP() function temporarily switches to use Sales[ShipDate] for this calculation.
+
+## ⚙️ Use Cases Beyond RLS
+
+Use Case	Description
+Multiple Date Columns	When a fact table (e.g., Sales) has multiple date fields (OrderDate, ShipDate, DeliveryDate). Only one can be active — use USERELATIONSHIP() to reference others.
+Scenario Analysis	For example, “What if we use planned vs actual delivery dates” — switch relationships dynamically.
+Custom Time Intelligence	Compare metrics based on different time contexts (e.g., invoiced vs payment dates).
+RLS (Row-Level Security)	In some cases, USERELATIONSHIP() is used within security filters to define alternate relationships for filtering, but this is not its primary or only purpose.
+🚫 Common Misunderstanding
+
+## Common thought pattern
+
+“USERELATIONSHIP() is for Row-Level Security.”
+
+That’s only partially true — while RLS filters can use it, the function itself is a DAX modeling tool, not a security feature.
+
+RLS rules (like FILTER() or RELATEDTABLE()) can use it to control which relationship Power BI applies for filtering users’ data visibility — but that’s a specialized scenario.
+
+## 💡 Exam Tip (PL-300) - USERRELATIONSHIP
+
+If the question mentions:
+
+“A table has two relationships with another table, but only one is active…”
+
+✅ The correct answer is often to use USERELATIONSHIP() in a measure.
+
+“RLS must filter through a non-active relationship…”
+
+✅ Then, USERELATIONSHIP() may be used inside the security DAX rule — but the key concept is that it activates an inactive relationship temporarily.
+
+✅ Explanation: Performance Analyzer Process in Power BI
+
+This question tests your understanding of how to identify slow visuals in a Power BI report using the Performance Analyzer tool — which measures how long visuals take to render, query data, and process DAX calculations.
+
+## ⚙️ Correct Order of Steps
+
+1. Add a blank report page
+→ Prevents cached visuals from affecting results.
+→ Ensures the analyzer measures fresh visual rendering times.
+
+2. Restart Power BI Desktop
+→ Clears both visual cache and data engine cache for accurate timing.
+
+3. Start recording in Performance Analyzer
+→ Enables Power BI to log visual performance metrics.
+
+4. Interact with the visuals
+→ Triggers each visual to render and be measured.
+
+5. Stop recording and review the results
+→ Displays load time for visuals, including:
+
+6. DAX Query Time (data engine)
+
+Visual Display Time (rendering)
+
+Other Time (miscellaneous background tasks)
+
+## 🔍 Why Each Step Matters
+Step	Purpose	Common Mistake
+1️⃣ Add blank page	Avoid cached visuals	Running analyzer on an old page gives false times.
+2️⃣ Restart Desktop	Clear caches	Skipping restart means cached data inflates results.
+3️⃣ Start recording	Begin timing visuals	Forgetting to record yields no log data.
+4️⃣ Interact with visuals	Trigger refresh	Not interacting means nothing is measured.
+5️⃣ Stop & review	Get performance report	Exiting without review misses insights.
+
+## 🧠 How to Interpret Results - Performance Analyzer
+
+Performance Analyzer outputs time spent in three categories:
+
+DAX Query → Time Power BI took to query the model.
+
+Visual Display → Time to render visuals (graphics/UI).
+
+Other → Time for background processes (e.g., filters, calculations).
+
+## 💡 You can also copy the performance data to clipboard → paste into Excel for deeper analysis.
+
+## 🧩 Exam Tip (PL-300)
+
+## Exam Tips - Performance Analyzer
+
+“Identify visuals with slow performance” → Use Performance Analyzer
+
+“Clear cache or measure load time” → Restart Power BI + blank page
+
+“Measure DAX query duration” → Performance Analyzer, not Query Diagnostics
+
+
 
 ## 🏁 Final Exam-Day Reminders
 
