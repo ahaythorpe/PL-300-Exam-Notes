@@ -77,6 +77,101 @@ CALCULATE([Total Sales], USERELATIONSHIP('Date'[Date], Sales[ShipDate]))
 
 ---
 
+## Core data modelling concepts 
+
+## 🧩 Column Quality, Column Profile, and Column Distribution in Power Query
+
+These three tools are part of Data Profiling in Power BI Power Query — they help you understand, clean, and validate your dataset before loading it into your data model.
+
+You can enable them from:
+
+Power Query Editor → View tab → Data Preview section
+
+## 1️⃣ Column Quality
+
+Purpose:
+Shows data validity summary (valid, error, empty) for each column.
+
+Metric	Description
+✅ Valid	Rows with acceptable / correctly formatted data.
+⚠️ Error	Rows with formula or data type errors.
+⚪ Empty	Null or blank values.
+
+## Example:
+If a Date column has 95% valid, 4% errors, 1% empty → you immediately know you need to fix the errors before loading.
+
+💡 Exam Tip:
+
+“Column Quality = how clean the column is.”
+
+## 2️⃣ Column Profile
+
+## Purpose:
+Gives a detailed statistical summary of a single column’s data.
+
+You can view it by selecting View → Column Profile → Column Statistics and selecting a column.
+
+## Displays:
+
+Count, distinct, unique, empty, error values
+
+Minimum / Maximum (for numeric or date fields)
+
+Average, standard deviation, count of nulls
+
+For text: average length, distinct values
+
+## Use Case - Column Profile:
+Helps validate column logic — e.g., you can check that all sales amounts fall within expected numeric ranges.
+
+## 💡 Exam Tip:
+
+“Column Profile = deep dive into one column’s stats.”
+
+## 3️⃣ Column Distribution
+
+Purpose:
+Visually displays how values are distributed — like a histogram or frequency chart for categorical data.
+
+It shows:
+
+Number of distinct and unique values
+
+Graphical bar chart of frequency counts
+
+## Use Case - Column Distribution:
+Helps you spot data skew — e.g., if 80% of records belong to one product, that could affect modeling.
+
+💡 Exam Tip:
+
+## “Column Distribution = visual snapshot of diversity and spread.”
+
+## 🧠 Comparison Summary
+Feature	Purpose	Type of Insight	Visual?	Scope
+Column Quality	Data validity (valid, error, empty)	Data cleanliness	✅ Bars (green/yellow/gray)	Entire table
+Column Profile	Statistics (mean, min, max, count)	Data distribution summary	❌ (textual table)	Single column
+Column Distribution	Frequency of values	Diversity & frequency	✅ Histogram	Single column
+⚙️ Best Practice
+
+## Enable column Display, profile and Distribution:
+
+Go to View tab → Data Preview
+
+Check ✅ “Column Quality,” ✅ “Column Distribution,” ✅ “Column Profile”
+
+(Optional) Enable Column profiling based on entire dataset
+
+Default only scans first 1000 rows; for accuracy, use full data.
+
+## 🧩 Exam Tip Table - Column profile, row , display and distribution
+
+Exam Clue	Correct Answer
+“Check % of valid vs empty rows”	Column Quality
+“Find column min/max and unique counts”	Column Profile
+“View graphical representation of data spread”	Column Distribution
+“Shows green, gray, red bars below column headers”	Column Quality
+
+
 ## 🟢 DAX Fundamentals
 
 ### Core Aggregations
@@ -89,6 +184,7 @@ CALCULATE([Total Sales], USERELATIONSHIP('Date'[Date], Sales[ShipDate]))
 | Min / Max | `MIN()`, `MAX()` | `MIN(Product[Price])` |
 
 ### Iterators & Row Context
+
 ```dax
 Total Profit =
 SUMX(
@@ -585,6 +681,7 @@ If it mentions “API”, “endpoint”, “structured feed”, “JSON object�
 APIs or JSON files → Get JSON Data”
 
 📘 Add to “Tricky Questions” Section
+
 ### 🧩 Web Scraping vs JSON Data
 
 | Feature | Data Source Type | Extracts From | Example Use |
@@ -677,8 +774,133 @@ If the question mentions “transform”, “Power Query”, or “reusable tabl
 
 If it says “visualize”, “build measures”, or “relationships” → ✅ Dataset
 
+## 🧩 Connecting to an Endorsed Dataset (Azure SQL vs Dataset)
+
+## 🧠 Explanation
+
+When a company already has an endorsed dataset published to the Power BI Service, that dataset is the single source of truth — it contains standardized data models, measures, hierarchies, and business logic.
+
+Creating your own connection directly to the Azure SQL Database would bypass governance and lead to inconsistent definitions.
+
+Instead, you should connect via:
+
+Power BI Desktop → Get Data → Power BI Datasets → Select the endorsed dataset
+
+This creates a Live Connection to the published dataset in Power BI Service.
+
+## ⚙️ Connection Modes Comparison
+
+Connection Mode	Description	Editable Model?	Typical Use
+Import	Data copied into .pbix	✅ Yes	Fast reports, small data
+DirectQuery	Queries the source in real time	✅ Yes	Large databases
+Live Connection	Connects to published dataset (no schema editing)	❌ No	Centralized corporate models
+
+## 💡 Key Takeaways - Endoresed Data Sets
+
+Endorsed datasets are shared, validated datasets approved for reuse.
+
+Live connection allows report creation without duplicating or altering the data model.
+
+Do NOT use Dataflows for this scenario — they are for data transformation before dataset creation, not for connecting reports.
+
+Do NOT connect directly to the Azure SQL — that breaks standardization.
+
+## ⚠️ Common Exam Traps - Exam example connecting to Endoresed data sets 
+
+Option	Why It’s Wrong
+“Create a new local dataset connecting to Azure SQL”	Duplicates the mode ignores endorsed dataset.
+“Use Power BI Dataflows”	Dataflows are used to create datasets not consume them.
+“Edit a .pbix file with an existing connection”	You can’t connect one .pbix to multiple data sources.
+
+## 🧠 Memory Hook
+
+“Dataflows build datasets,
+Datasets serve reports.”
+
+## 🧩 Exam Tis - Data connection and connecting to endoresed data sets
+
+If the question mentions:
+
+“endorsed dataset” = “certified model”, or “standardized data” → ✅ Connect via Power BI Service Live Connection
+
+“Azure SQL source” = “data warehouse”, or “ETL process” → ✅ Use Dataflow or DirectQuery
+
+“Reusable report” or “shared business logic” → ✅ Use Endorsed Dataset
+
+## Power Query Transformation Logic 
+
+## 🧩 Question Context
+
+You need to make sure that the labels for the country are consistent.
+What should you do?
+✅ Answer: Apply the Replace Values transform to the Country column.
+
+## 🧠 Explanation
+
+## 1️⃣ What the problem means
+
+In Power BI, "labels for country" refers to text inconsistencies like:
+
+“USA” vs “U.S.A.” vs “United States”
+
+“UK” vs “United Kingdom”
+
+“India ” (with extra space) vs “india”
+
+These inconsistencies break relationships, groupings and aggregations (e.g., “United States” might be counted twice under different spellings).
+
+## 2️⃣ Why Replace Values is correct
+
+Replace Values is a data cleaning transformation that substitutes one text value with another without deleting rows.
+This makes it ideal for standardizing inconsistent labels.
+
+## ✅ Example:
+
+Before	After
+USA	United States
+U.S.A.	United States
+United States	United States
+
+In Power Query:
+
+🧩 Transform → Replace Values → Replace "U.S.A." with "United States"
+
+So you retain all rows, just ensuring consistency.
+
+## 3️⃣ Why NOT the other options
+Option	Why Incorrect
+Remove Duplicates	Deletes rows. If two entries are valid but labeled differently you lose data.
+Convert to List	Removes other columns entirely used only for list transformations not text standardization.
+Set Data Category to Country	Helps mapping visuals (e.g., map charts) but doesn’t clean inconsistent names.
+
+## ⚙️ Best Practice
+
+Always standardize text columns (like Country, Region, or Department) before relationships or joins.
+
+Use Trim, Clean and Replace Values to ensure:
+
+- No trailing spaces
+
+- Consistent casing
+
+- Standard naming conventions
+
+🧠 Exam Tip
+
+## If a question mentions:
+
+“Make labels consistent” or “Standardize text entries”
+✅ Choose Replace Values.
+If it mentions:
+“Remove duplicate records”
+✅ Choose Remove Duplicates.
+
+## 🧩 Memory Hook
+
+“Replace fixes labels, Remove deletes rows.”
 
 ## 🏁 Final Exam-Day Reminders
+
 - Read each scenario twice; highlight keywords (data latency, governance, self-service).
 - Validate calculation context—ask: **Which table? Which filters? Which grain?**
 - Favor maintainable solutions (field parameters, reusable measures, shared datasets).
