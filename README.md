@@ -627,7 +627,7 @@ Default to Subscription if it mentions any kind of regular / scheduled / daily /
 
 Treat Alert as niche — only use it when a threshold trigger is explicitly stated.
 
-⚠️ Why Alerts Are “Less Useful” for Regular Updates
+## ⚠️ Why Alerts Are “Less Useful” for Regular Updates
 
 Because:
 
@@ -645,7 +645,7 @@ Deliver whole report snapshots automatically.
 
 Are time-based, not condition-based — making them ideal for routine updates or executives who want daily KPIs.
 
-🧩 Memory Hook
+## 🧩 Memory Hook
 
 “If it’s time-based → Subscription.
 If it’s threshold-based → Alert.”
