@@ -223,7 +223,7 @@ Helps you spot data skew — e.g., if 80% of records belong to one product that 
 
 ## 💡 Exam Tip:
 
-## “Column Distribution = visual snapshot of diversity and spread.”
+ “Column Distribution = visual snapshot of diversity and spread.”
 
 ## 🧠 Comparison Summary
 Feature	Purpose	Type of Insight	Visual?	Scope
