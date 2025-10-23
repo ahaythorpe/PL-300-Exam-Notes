@@ -300,7 +300,8 @@ Function	Behavior	Output	When to Use
 DATEADD()	Shifts by any interval	Table of shifted dates	Flexible comparisons (e.g., -3 months)
 SAMEPERIODLASTYEAR()	Shifts by one year, same shape	Table of same dates last year	Standard YoY
 PARALLELPERIOD()	Shifts by fixed interval (month/quarter/year)	Table	Works even if dates aren’t continuous
-🧠 Memory Hook
+
+## 🧠 Memory Hook
 
 “DATEADD moves, CALCULATE compares.”
 
