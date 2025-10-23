@@ -219,7 +219,7 @@ Number of distinct and unique values
 Graphical bar chart of frequency counts
 
 ## Use Case - Column Distribution:
-Helps you spot data skew — e.g., if 80% of records belong to one product, that could affect modeling.
+Helps you spot data skew — e.g., if 80% of records belong to one product that could affect modeling.
 
 ## 💡 Exam Tip:
 
