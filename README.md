@@ -230,9 +230,10 @@ Feature	Purpose	Type of Insight	Visual?	Scope
 Column Quality	Data validity (valid, error, empty)	Data cleanliness	✅ Bars (green/yellow/gray)	Entire table
 Column Profile	Statistics (mean, min, max, count)	Data distribution summary	❌ (textual table)	Single column
 Column Distribution	Frequency of values	Diversity & frequency	✅ Histogram	Single column
-⚙️ Best Practice
 
-## Enable column Display, profile and Distribution:
+## ⚙️ Best Practice
+
+ Enable column Display, profile and Distribution:
 
 Go to View tab → Data Preview
 
