@@ -128,7 +128,7 @@ Tables have different columns but share a common key (like CustomerID or OrderID
 
 You want to bring in additional fields from another table.
 
-Example:
+## Example:
 
 Orders	Customers
 OrderID	CustomerID
@@ -221,7 +221,7 @@ Graphical bar chart of frequency counts
 ## Use Case - Column Distribution:
 Helps you spot data skew — e.g., if 80% of records belong to one product, that could affect modeling.
 
-💡 Exam Tip:
+## 💡 Exam Tip:
 
 ## “Column Distribution = visual snapshot of diversity and spread.”
 
