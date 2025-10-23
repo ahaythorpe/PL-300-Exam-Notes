@@ -101,17 +101,17 @@ You want one combined table that contains all rows from each monthly file.
 
 ## Example:
 
-January_Sales	February_Sales
-Product	Product
-Quantity	Quantity
-Amount	Amount
+|January_Sales|	February_Sales|
+|Product|	Product|
+|Quantity|Quantity|
+|Amount|	Amount  |
 
 ## → After Append:
 
 Product	Quantity	Amount
-A	10	100
-B	15	200
-A	12	120
+|A|10|100|
+|B|15|200|
+|A|12|120|
 
 ✅ Now, visuals and measures can aggregate across months.
 
@@ -601,7 +601,7 @@ Table.ReplaceValue(
 ```
 Replaces substring matches inside specified columns.
 
-## Steps using performance Analyser - identofying slow visuals 
+## Steps using performance Analyser - identfying slow visuals 
 
 1️⃣ Add a blank report page (avoid cached visuals)
 2️⃣ Restart Power BI Desktop (clear cache)
