@@ -179,7 +179,7 @@ Shows data validity summary (valid, error, empty) for each column.
 ## Example:
 If a Date column has 95% valid, 4% errors, 1% empty → you immediately know you need to fix the errors before loading.
 
-💡 Exam Tip:
+## 💡 Exam Tip:
 
 “Column Quality = how clean the column is.”
 
