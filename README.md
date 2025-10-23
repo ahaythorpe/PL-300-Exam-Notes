@@ -286,7 +286,7 @@ Shifts a date column forward or backward by the specified number and interval (D
 DATEADD() doesn’t aggregate; it returns a table of shifted dates.
 Combine it with CALCULATE() to re-evaluate measures for a different period.
 
-## it can be used to 'compare' over time periods with the previous year. 
+it can be used to 'compare' over time periods with the previous year. 
 
 ## Example DATEADD Comparison
 Sales Previous Year =
